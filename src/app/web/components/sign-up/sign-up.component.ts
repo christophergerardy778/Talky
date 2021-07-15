@@ -24,8 +24,7 @@ export class SignUpComponent implements OnInit {
     private readonly authService: AuthService,
     private readonly formBuilder: FormBuilder,
     private readonly dialog: MatDialog
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     this.registerForm = this.formBuilder.group({
@@ -74,4 +73,16 @@ export class SignUpComponent implements OnInit {
     }
   }
 
+  async registerUserBySocial(accountType: ACCOUNT_TYPE) {
+    try {
+      await this.authService.registerSocialUser(accountType);
+    } catch (e) {
+      this.dialog.open(SignInErrorDialogComponent, {
+        data: {
+          title: "Email already in use",
+          description: `This email is already in use please use another email and try again`
+        }
+      })
+    }
+  }
 }

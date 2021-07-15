@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {AngularFirestore, AngularFirestoreCollection} from "@angular/fire/firestore";
 import {ACCOUNT_TYPE, IUser} from "../models/IUser";
 import {AngularFireAuth} from "@angular/fire/auth";
+import firebase from "firebase";
 
 @Injectable({
   providedIn: 'root'
@@ -37,14 +38,6 @@ export class AuthService {
     }
   }
 
-  registerSocialUser(accountType: ACCOUNT_TYPE) {
-    switch (accountType) {
-      case ACCOUNT_TYPE.GOOGLE:
-
-    }
-  }
-
-
   createUserFirestore(user: IUser) {
     return this.userCollection.add(user);
   }
@@ -53,5 +46,34 @@ export class AuthService {
     return this.userCollection.ref
       .where("email", "==", email)
       .get();
+  }
+
+  async registerSocialUser(accountType: ACCOUNT_TYPE) {
+    switch (accountType) {
+      case ACCOUNT_TYPE.GOOGLE:
+        return this.registerUserGoogle();
+    }
+  }
+
+  async registerUserGoogle() {
+    const result = await this.angularFireAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+    const {name, picture} = result.additionalUserInfo?.profile as any;
+    const response = await this.userAlreadyExists(result.user!.email!);
+
+    if (response.empty) {
+      if (result.additionalUserInfo!.isNewUser) {
+        await this.createUserFirestore({
+          id: result.user!.uid,
+          name: name,
+          email: result.user!.email!,
+          registerBy: ACCOUNT_TYPE.GOOGLE,
+          photoUrl: picture
+        })
+      }
+    } else {
+      const authUser = await this.angularFireAuth.currentUser;
+      await authUser!.delete();
+      throw Error("Email already in use");
+    }
   }
 }
