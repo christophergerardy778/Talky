@@ -1,1 +1,58 @@
-<p>login works!</p>
+<div class="wrapper">
+  <div class="row wrapper-ext">
+    <div class="col-md-6">
+      <h1 class="title text-dark">
+        Login
+      </h1>
+
+      <p class="text-dark">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aperiam asperiores atque cum
+        cupiditate dolorem, eius esse, iure minima nesciunt obcaecati quibusdam saepe sapiente
+      </p>
+
+      <form action="" class="form-space" [formGroup]="loginForm">
+        <mat-form-field appearance="fill" class="input-fill">
+          <mat-label>Email</mat-label>
+          <input
+            type="email"
+            required
+            placeholder="example@talky.com"
+            matInput
+            formControlName="email"
+          >
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="input-fill">
+          <mat-label>Password</mat-label>
+          <input
+            type="password"
+            required
+            placeholder="**********"
+            matInput
+            formControlName="password"
+          >
+        </mat-form-field>
+
+        <button
+          mat-flat-button
+          color="primary"
+          class="button-big button-fill button-space"
+
+        >
+          Login
+        </button>
+
+      </form>
+
+      <h2 class="form-space text-social text-dark">
+        Continue with
+      </h2>
+
+      <div class="social-container">
+        <img src="assets/img/google.png" class="social-img" alt="google" >
+        <img src="assets/img/facebook.png" class="social-img" alt="facebook" >
+        <img src="assets/img/twitter.png" class="social-img" alt="twitter">
+      </div>
+    </div>
+  </div>
+</div>

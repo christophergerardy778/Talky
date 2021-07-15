@@ -52,8 +52,36 @@ export class AuthService {
     switch (accountType) {
       case ACCOUNT_TYPE.GOOGLE:
         return this.registerUserGoogle();
+      case ACCOUNT_TYPE.FACEBOOK:
+        return this.registerUserFacebook();
     }
   }
+
+  async registerUserFacebook() {
+    const result = await this.angularFireAuth.signInWithPopup(new firebase.auth.FacebookAuthProvider());
+    const response = await this.userAlreadyExists(result.user!.email!);
+    const profile = result.additionalUserInfo!.profile as any;
+    const name = profile.name;
+    const image = result.user!.photoURL;
+
+    if (response.empty) {
+      if (result.additionalUserInfo!.isNewUser) {
+
+        await this.createUserFirestore({
+          id: result.user!.uid,
+          name: name,
+          email: result.user!.email!,
+          registerBy: ACCOUNT_TYPE.FACEBOOK,
+          photoUrl: image!
+        })
+      }
+    } else {
+      const authUser = await this.angularFireAuth.currentUser;
+      await authUser!.delete();
+      throw Error("Email already in use");
+    }
+  }
+
 
   async registerUserGoogle() {
     const result = await this.angularFireAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider());

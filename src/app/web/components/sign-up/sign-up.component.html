@@ -60,25 +60,11 @@
         Continue with
       </h2>
 
-      <button
-        mat-flat-button
-        color="accent"
-        class="button-big button-fill button-space"
-        (click)="registerUserBySocial(google)"
-      >
-        GOOGLE
-      </button>
-
-      <!--<h2 class="form-space text-social text-dark">
-        Continue with
-      </h2>
-
-      <div style="display: flex; justify-content: space-evenly">
-        <button mat-fab class="mat-elevation-z0" style="background: url('https://iconape.com/wp-content/png_logo_vector/facebook-f-logo-2019.png'); background-size: 100% 100%; width: 36px; height: 36px">
-        </button><button mat-fab class="mat-elevation-z0" style="background: url('https://iconape.com/wp-content/png_logo_vector/facebook-f-logo-2019.png'); background-size: 100% 100%; width: 36px; height: 36px">
-        </button><button mat-fab class="mat-elevation-z0" style="background: url('https://iconape.com/wp-content/png_logo_vector/facebook-f-logo-2019.png'); background-size: 100% 100%; width: 36px; height: 36px">
-        </button>
-      </div>-->
+      <div class="social-container">
+        <img src="assets/img/google.png" class="social-img" alt="google" (click)="registerUserBySocial(google)">
+        <img src="assets/img/facebook.png" class="social-img" alt="facebook" (click)="registerUserBySocial(facebook)">
+        <img src="assets/img/twitter.png" class="social-img" alt="twitter">
+      </div>
     </div>
   </div>
 </div>

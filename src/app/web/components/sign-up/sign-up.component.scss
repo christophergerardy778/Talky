@@ -35,3 +35,14 @@
 .button-fill {
   width: 100%;
 }
+
+.social-container {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.social-img {
+  max-width: 48px;
+  max-height: 48px;
+  cursor: pointer;
+}

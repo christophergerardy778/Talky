@@ -5,6 +5,10 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () => import("./web/web.module").then(m => m.WebModule)
+  },
+  {
+    path: 'app',
+    loadChildren: () => import("./video/video.module").then(m => m.VideoModule)
   }
 ];
 

@@ -4,6 +4,7 @@ import {ACCOUNT_TYPE} from "../../../core/models/IUser";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MatDialog} from "@angular/material/dialog";
 import {SignInErrorDialogComponent} from "../../../shared/components/sign-in-error-dialog/sign-in-error-dialog.component";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-sign-up',
@@ -23,7 +24,8 @@ export class SignUpComponent implements OnInit {
   constructor(
     private readonly authService: AuthService,
     private readonly formBuilder: FormBuilder,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly router: Router
   ) {}
 
   ngOnInit(): void {
@@ -60,6 +62,7 @@ export class SignUpComponent implements OnInit {
           password: this.registerForm.get("password")!.value
         });
 
+        await this.router.navigate(['/app'])
       } catch (e) {
         this.dialog.open(SignInErrorDialogComponent, {
           data: {
@@ -76,6 +79,7 @@ export class SignUpComponent implements OnInit {
   async registerUserBySocial(accountType: ACCOUNT_TYPE) {
     try {
       await this.authService.registerSocialUser(accountType);
+      await this.router.navigate(['/app'])
     } catch (e) {
       this.dialog.open(SignInErrorDialogComponent, {
         data: {
