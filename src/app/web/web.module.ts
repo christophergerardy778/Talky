@@ -7,6 +7,7 @@ import {HomeComponent} from './components/home/home.component';
 import {LoginComponent} from './components/login/login.component';
 import {MaterialModule} from "../material/material.module";
 import { SignUpComponent } from './components/sign-up/sign-up.component';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -19,7 +20,9 @@ import { SignUpComponent } from './components/sign-up/sign-up.component';
     CommonModule,
     WebRoutingModule,
     SharedModule,
-    MaterialModule
+    MaterialModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class WebModule {

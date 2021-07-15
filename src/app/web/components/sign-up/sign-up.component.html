@@ -10,26 +10,59 @@
         cupiditate dolorem, eius esse, iure minima nesciunt obcaecati quibusdam saepe sapiente
       </p>
 
-      <form action="" class="form-space">
+      <form action="" class="form-space" [formGroup]="registerForm">
         <mat-form-field appearance="fill" class="input-fill">
           <mat-label>Names</mat-label>
-          <input type="text" placeholder="Example: Christopher Gerardy" matInput>
+          <input
+            type="text"
+            placeholder="Example: Christopher Gerardy"
+            matInput
+            formControlName="name"
+            required
+          >
         </mat-form-field>
 
         <mat-form-field appearance="fill" class="input-fill">
           <mat-label>Email</mat-label>
-          <input type="text" placeholder="example@talky.com" matInput>
+          <input
+            type="email"
+            required
+            placeholder="example@talky.com"
+            matInput
+            formControlName="email"
+          >
         </mat-form-field>
 
         <mat-form-field appearance="fill" class="input-fill">
           <mat-label>Password</mat-label>
-          <input type="password" placeholder="**********" matInput>
+          <input
+            type="password"
+            required
+            placeholder="**********"
+            matInput
+            formControlName="password"
+          >
         </mat-form-field>
 
-        <button mat-flat-button color="primary" class="button-big button-fill button-space">
+        <button
+          mat-flat-button
+          color="primary"
+          class="button-big button-fill button-space"
+          (click)="registerUserByEmail($event)"
+          [disabled]="!registerForm.valid || isLoading"
+        >
           Sign up
         </button>
+
       </form>
+
+      <button
+        mat-flat-button
+        color="accent"
+        class="button-big button-fill button-space"
+      >
+        GOOGLE
+      </button>
 
       <!--<h2 class="form-space text-social text-dark">
         Continue with
