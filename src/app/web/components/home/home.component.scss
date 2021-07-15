@@ -1,0 +1,37 @@
+.title {
+  color: #7479ED;
+  font-size: 64px;
+  line-height: 120%;
+  font-weight: 800;
+}
+
+.sub-text {
+  color: #747474;
+  margin: 0;
+}
+
+.button-call-to-action {
+  margin-top: 24px;
+  height: 48px;
+  min-width: 240px;
+  font-weight: bold;
+}
+
+.wrapper {
+  padding: 0 64px;
+}
+
+.custom-row {
+  display: flex;
+  min-height: 90vh;
+  align-items: center;
+}
+
+.align-image {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.image-tablet {
+  max-width: 90%;
+}

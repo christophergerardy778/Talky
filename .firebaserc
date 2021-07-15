@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "talky-web-app": {
+      "hosting": {
+        "Talky": [
+          "talky-web-app"
+        ]
+      }
+    }
+  }
+}
