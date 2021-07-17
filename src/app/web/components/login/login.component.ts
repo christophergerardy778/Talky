@@ -6,6 +6,8 @@ import {IDialog} from "../../../core/models/IDialog";
 import {MatDialog} from "@angular/material/dialog";
 import {SignInErrorDialogComponent} from "../../../shared/components/sign-in-error-dialog/sign-in-error-dialog.component";
 import {Router} from "@angular/router";
+import firebase from "firebase";
+import {AngularFireAuth} from "@angular/fire/auth";
 
 @Component({
   selector: 'app-login',
@@ -26,7 +28,8 @@ export class LoginComponent implements OnInit {
     private readonly formBuilder: FormBuilder,
     private readonly authService: AuthService,
     private readonly dialog: MatDialog,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly angularFireAuth: AngularFireAuth
   ) {
   }
 
@@ -80,7 +83,46 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  loginUserSocial(accountType: ACCOUNT_TYPE) {
+    this.authService.getSocialProvider(accountType)
+      .then((user) => this.registerOrLoginUser(user, accountType))
+      .catch((error) => this.handleAuthErrors(error.code));
+  }
+
+  async registerOrLoginUser(user: firebase.auth.UserCredential, accountType: ACCOUNT_TYPE) {
+    if (user.additionalUserInfo!.isNewUser) {
+      const userSocial = this.authService.buildUserBySocialProvider(user, accountType);
+      await this.authService.createUserFirestore(userSocial);
+      await this.router.navigate(["app"])
+    } else {
+      await this.router.navigate(["/app"])
+    }
+  }
+
   openModalError(data: IDialog) {
     this.dialog.open(SignInErrorDialogComponent, {data});
+  }
+
+  handleAuthErrors(code: string) {
+    switch (code) {
+
+      case "auth/account-exists-with-different-credential":
+        return this.openModalError({
+          title: 'Email already exists',
+          description: 'This email is already in use please use another and try again'
+        });
+
+      case "auth/popup-closed-by-user":
+        return this.openModalError({
+          title: 'Process incomplete',
+          description: 'Process aborted by user'
+        });
+
+      default:
+        return this.openModalError({
+          title: 'Application error',
+          description: 'Unexpected error'
+        });
+    }
   }
 }

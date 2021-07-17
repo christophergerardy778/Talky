@@ -58,7 +58,7 @@ export class AuthService {
     }
   }
 
-  buildUserBySocialProvider(credential: firebase.auth.UserCredential, accountType: ACCOUNT_TYPE) : IUser {
+  buildUserBySocialProvider(credential: firebase.auth.UserCredential, accountType: ACCOUNT_TYPE): IUser {
     switch (accountType) {
       case ACCOUNT_TYPE.GOOGLE:
         const {name, picture} = credential.additionalUserInfo?.profile as any;
@@ -91,5 +91,9 @@ export class AuthService {
 
   loginUserByEmailAndPassword(email: string, password: string) {
     return this.angularFireAuth.signInWithEmailAndPassword(email, password);
+  }
+
+  loginBySocialMedia() {
+
   }
 }

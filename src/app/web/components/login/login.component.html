@@ -50,9 +50,21 @@
       </h2>
 
       <div class="social-container">
-        <img src="assets/img/google.png" class="social-img" alt="google" >
-        <img src="assets/img/facebook.png" class="social-img" alt="facebook" >
-        <img src="assets/img/twitter.png" class="social-img" alt="twitter">
+        <img
+          src="assets/img/google.png"
+          class="social-img" alt="google"
+          (click)="loginUserSocial(google)"
+        >
+        <img
+          src="assets/img/facebook.png"
+          class="social-img" alt="facebook"
+          (click)="loginUserSocial(facebook)"
+        >
+        <img
+          src="assets/img/twitter.png"
+          class="social-img" alt="twitter"
+          (click)="loginUserSocial(twitter)"
+        >
       </div>
     </div>
   </div>
