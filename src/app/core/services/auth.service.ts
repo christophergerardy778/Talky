@@ -19,7 +19,6 @@ export class AuthService {
   }
 
   async registerEmailUser(user: IUser) {
-
     const result = await this.userAlreadyExists(user.email);
 
     if (result.empty) {
@@ -48,60 +47,45 @@ export class AuthService {
       .get();
   }
 
-  async registerSocialUser(accountType: ACCOUNT_TYPE) {
+  getSocialProvider(accountType: ACCOUNT_TYPE) {
     switch (accountType) {
       case ACCOUNT_TYPE.GOOGLE:
-        return this.registerUserGoogle();
+        return this.angularFireAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
       case ACCOUNT_TYPE.FACEBOOK:
-        return this.registerUserFacebook();
+        return this.angularFireAuth.signInWithPopup(new firebase.auth.FacebookAuthProvider());
+      default:
+        return this.angularFireAuth.signInWithPopup(new firebase.auth.TwitterAuthProvider());
     }
   }
 
-  async registerUserFacebook() {
-    const result = await this.angularFireAuth.signInWithPopup(new firebase.auth.FacebookAuthProvider());
-    const response = await this.userAlreadyExists(result.user!.email!);
-    const profile = result.additionalUserInfo!.profile as any;
-    const name = profile.name;
-    const image = result.user!.photoURL;
-
-    if (response.empty) {
-      if (result.additionalUserInfo!.isNewUser) {
-
-        await this.createUserFirestore({
-          id: result.user!.uid,
+  buildUserBySocialProvider(credential: firebase.auth.UserCredential, accountType: ACCOUNT_TYPE) : IUser {
+    switch (accountType) {
+      case ACCOUNT_TYPE.GOOGLE:
+        const {name, picture} = credential.additionalUserInfo?.profile as any;
+        return {
+          id: credential.user!.uid,
           name: name,
-          email: result.user!.email!,
-          registerBy: ACCOUNT_TYPE.FACEBOOK,
-          photoUrl: image!
-        })
-      }
-    } else {
-      const authUser = await this.angularFireAuth.currentUser;
-      await authUser!.delete();
-      throw Error("Email already in use");
-    }
-  }
-
-
-  async registerUserGoogle() {
-    const result = await this.angularFireAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
-    const {name, picture} = result.additionalUserInfo?.profile as any;
-    const response = await this.userAlreadyExists(result.user!.email!);
-
-    if (response.empty) {
-      if (result.additionalUserInfo!.isNewUser) {
-        await this.createUserFirestore({
-          id: result.user!.uid,
-          name: name,
-          email: result.user!.email!,
+          email: credential.user!.email!,
           registerBy: ACCOUNT_TYPE.GOOGLE,
           photoUrl: picture
-        })
-      }
-    } else {
-      const authUser = await this.angularFireAuth.currentUser;
-      await authUser!.delete();
-      throw Error("Email already in use");
+        };
+      case ACCOUNT_TYPE.FACEBOOK:
+        const profile = credential.additionalUserInfo!.profile as any;
+        return {
+          id: credential.user!.uid,
+          name: profile.name,
+          email: credential.user!.email!,
+          registerBy: ACCOUNT_TYPE.FACEBOOK,
+          photoUrl: credential.user!.photoURL!
+        }
+      default:
+        return {
+          email: "",
+          id: "",
+          name: "",
+          photoUrl: "",
+          registerBy: ACCOUNT_TYPE.TWITTER
+        }
     }
   }
 }

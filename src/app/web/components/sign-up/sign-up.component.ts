@@ -5,6 +5,8 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MatDialog} from "@angular/material/dialog";
 import {SignInErrorDialogComponent} from "../../../shared/components/sign-in-error-dialog/sign-in-error-dialog.component";
 import {Router} from "@angular/router";
+import firebase from "firebase";
+import {AngularFireAuth} from "@angular/fire/auth";
 
 @Component({
   selector: 'app-sign-up',
@@ -25,8 +27,10 @@ export class SignUpComponent implements OnInit {
     private readonly authService: AuthService,
     private readonly formBuilder: FormBuilder,
     private readonly dialog: MatDialog,
-    private readonly router: Router
-  ) {}
+    private readonly router: Router,
+    private readonly angularFireAuth: AngularFireAuth
+  ) {
+  }
 
   ngOnInit(): void {
     this.registerForm = this.formBuilder.group({
@@ -50,43 +54,70 @@ export class SignUpComponent implements OnInit {
 
   async registerUserByEmail($event: Event) {
     $event.preventDefault();
+    this.isLoading = true;
 
     if (this.registerForm.valid) {
       try {
-        this.isLoading = true;
+        const querySnapshot = await this.authService.userAlreadyExists(this.registerForm.get("email")!.value);
 
-        await this.authService.registerEmailUser({
-          name: this.registerForm.get("name")!.value,
-          email: this.registerForm.get("email")!.value,
-          registerBy: ACCOUNT_TYPE.EMAIL,
-          password: this.registerForm.get("password")!.value
-        });
+        if (querySnapshot.empty) {
+          await this.authService.registerEmailUser({
+            name: this.registerForm.get("name")!.value,
+            email: this.registerForm.get("email")!.value,
+            registerBy: ACCOUNT_TYPE.EMAIL,
+            password: this.registerForm.get("password")!.value
+          });
 
-        await this.router.navigate(['/app'])
+          await this.router.navigate(['/app']);
+
+        } else {
+          this.openDialogError(
+            'Email already in use',
+            'This email is already register please try with another email'
+          );
+        }
       } catch (e) {
-        this.dialog.open(SignInErrorDialogComponent, {
-          data: {
-            title: "Email already in use",
-            description: `Email: ${this.registerForm.get('email')?.value } is already in use please use another email and try again`
-          }
-        })
+        this.openDialogError("Unexpected error", e.toString());
       } finally {
         this.isLoading = false;
       }
     }
   }
 
-  async registerUserBySocial(accountType: ACCOUNT_TYPE) {
-    try {
-      await this.authService.registerSocialUser(accountType);
-      await this.router.navigate(['/app'])
-    } catch (e) {
-      this.dialog.open(SignInErrorDialogComponent, {
-        data: {
-          title: "Email already in use",
-          description: `This email is already in use please use another email and try again`
-        }
+  openDialogError(title: string, description: string) {
+    this.dialog.open(SignInErrorDialogComponent, {
+      data: {title, description}
+    });
+  }
+
+  registerUserBySocial(accountType: ACCOUNT_TYPE) {
+    this.authService.getSocialProvider(accountType)
+      .then((user: firebase.auth.UserCredential) => {
+        this.saveUserSocial(user, accountType).catch(() => this.openDialogError(
+          'Email already in use',
+          'This email is already register please try with another email'
+        ));
       })
+      .catch(() => {
+        this.openDialogError('Process incomplete', 'Process canceled by user');
+      });
+  }
+
+  async saveUserSocial(user: firebase.auth.UserCredential, accountType: ACCOUNT_TYPE) {
+    const socialUser = this.authService.buildUserBySocialProvider(user, accountType);
+    const querySnapshot = await this.authService.userAlreadyExists(socialUser.email);
+
+    if (querySnapshot.empty) {
+      await this.authService.createUserFirestore(socialUser);
+      await this.router.navigate(['/app']);
+    } else {
+      this.openDialogError(
+        'Email already in use',
+        'This email is already register please try with another email'
+      );
+
+      const authUser = await this.angularFireAuth.currentUser;
+      await authUser!.delete();
     }
   }
 }
