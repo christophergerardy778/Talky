@@ -37,7 +37,8 @@
           mat-flat-button
           color="primary"
           class="button-big button-fill button-space"
-
+          (click)="emailLoginUser($event)"
+          [disabled]="isLoading || loginForm.invalid"
         >
           Login
         </button>

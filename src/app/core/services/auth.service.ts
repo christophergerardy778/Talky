@@ -88,4 +88,8 @@ export class AuthService {
         }
     }
   }
+
+  loginUserByEmailAndPassword(email: string, password: string) {
+    return this.angularFireAuth.signInWithEmailAndPassword(email, password);
+  }
 }
