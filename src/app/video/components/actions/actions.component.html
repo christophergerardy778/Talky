@@ -1,0 +1,73 @@
+<div class="wrapper-ext" *ngIf="user">
+  <div class="wrapper">
+    <div class="row mb-section">
+      <div class="col-md-5">
+        <h1 class="title app-font" *ngIf="user">
+          ¡Hi {{ user.name }}!
+        </h1>
+
+        <p class="app-font">
+          Lorem ipsum es el texto que se usa habitualmente en
+          diseño gráfico en demostraciones de tipografías.
+        </p>
+      </div>
+    </div>
+
+    <div class="row row-ext">
+      <div class="col-md-5 text-center">
+        <img
+          src="assets/img/create_room.svg"
+          alt="room"
+          class="img-action"
+        />
+
+        <h2 class="app-font title-section">
+          Create room
+        </h2>
+
+        <p class="app-font mb-section">
+          Lorem ipsum es el texto que se usa habitualmente en diseño gráfico en demostraciones de tipografías.
+        </p>
+
+        <button mat-flat-button color="primary" class="button-h button-filler" (click)="goAndGenerateRoom()">
+          Start to talk
+        </button>
+      </div>
+
+      <div class="col-md-5 text-center">
+        <img
+          src="assets/img/join_room.svg"
+          alt="room"
+          class="img-action"
+        />
+
+        <h2 class="app-font title-section">
+          Join a room
+        </h2>
+
+        <p class="app-font mb-section">
+          Lorem ipsum es el texto que se usa habitualmente en diseño gráfico en demostraciones de tipografías.
+        </p>
+
+        <div class="input-room-container">
+          <mat-form-field appearance="fill" class="input-room">
+            <mat-label>
+              ROOM ID
+            </mat-label>
+
+            <input
+              type="text"
+              matInput
+            >
+          </mat-form-field>
+
+          <button mat-flat-button color="primary" class="button-h">
+            <mat-icon>
+              arrow_right
+            </mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

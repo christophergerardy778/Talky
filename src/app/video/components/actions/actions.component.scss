@@ -1,0 +1,64 @@
+.img-action {
+  width: 230px;
+  height: 154px;
+}
+
+.title {
+  font-weight: 800;
+  font-size: 48px;
+  color: #747474;
+  margin-bottom: 8px;
+  line-height: normal;
+}
+
+.mb-section {
+  margin-bottom: 36px;
+}
+
+.title-section {
+  font-size: 36px;
+  color: #7479ED;
+  font-weight: 800;
+  margin-top: 24px;
+}
+
+.wrapper-ext {
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+}
+
+.content-flex {
+  display: flex;flex-direction: column;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.button-filler {
+  width: 100%;
+}
+
+.input-room-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.input-room {
+  width: 80%;
+}
+
+.button-h {
+  height: 48px;
+}
+
+.row-ext {
+  display:flex;
+  justify-content: space-between;
+}
+
+::ng-deep .mat-form-field-wrapper{
+  margin-bottom: -1.25em;
+}
