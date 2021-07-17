@@ -69,9 +69,11 @@ $Talky-theme: mat.define-light-theme((
 @include mat.all-component-themes($Talky-theme);
 
 /* You can add global styles to this file, and also import other style files */
-* { font-family: 'Nunito', sans-serif !important; }
 html, body { height: 100%; }
 body { margin: 0; }
+.app-font {
+  font-family: 'Nunito', sans-serif !important;
+}
 
 
 .wrapper {

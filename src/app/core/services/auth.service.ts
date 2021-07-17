@@ -93,7 +93,7 @@ export class AuthService {
     return this.angularFireAuth.signInWithEmailAndPassword(email, password);
   }
 
-  loginBySocialMedia() {
-
+  async getUserInfoById(user_id: string) {
+    return this.userCollection.ref.where("id", "==", user_id).get();
   }
 }

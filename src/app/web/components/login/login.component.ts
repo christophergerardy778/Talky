@@ -7,7 +7,6 @@ import {MatDialog} from "@angular/material/dialog";
 import {SignInErrorDialogComponent} from "../../../shared/components/sign-in-error-dialog/sign-in-error-dialog.component";
 import {Router} from "@angular/router";
 import firebase from "firebase";
-import {AngularFireAuth} from "@angular/fire/auth";
 
 @Component({
   selector: 'app-login',
@@ -28,8 +27,7 @@ export class LoginComponent implements OnInit {
     private readonly formBuilder: FormBuilder,
     private readonly authService: AuthService,
     private readonly dialog: MatDialog,
-    private readonly router: Router,
-    private readonly angularFireAuth: AngularFireAuth
+    private readonly router: Router
   ) {
   }
 
