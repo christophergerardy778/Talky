@@ -44,7 +44,7 @@ export class VideoCallComponent implements OnInit {
     console.log("my peer", clientId)
     this.myMediaSteam = mediaStream;
     this.startVideoCall();
-    this.addVideoStream(clientId, mediaStream);
+    this.addVideoStream(clientId, mediaStream, true);
   }
 
   handleError() {}
@@ -65,7 +65,7 @@ export class VideoCallComponent implements OnInit {
       mediaConnection.answer(this.myMediaSteam);
 
       mediaConnection.on('stream', stream => {
-        this.addVideoStream(mediaConnection.peer, stream);
+        this.addVideoStream(mediaConnection.peer, stream, false);
       });
     });
 
@@ -78,16 +78,25 @@ export class VideoCallComponent implements OnInit {
   remoteStream(call: MediaConnection) {
     call.on("stream", stream => {
       console.log('getting stream from', call.peer)
-      this.addVideoStream(call.peer, stream);
+      this.addVideoStream(call.peer, stream, false);
     })
   }
 
-  addVideoStream(peer_id: string, mediaStream: MediaStream) {
+  addVideoStream(peer_id: string, mediaStream: MediaStream, isMuted: boolean) {
     if (!this.videoStreams.some(item => item.peer_id === peer_id)) {
       this.videoStreams.push({
         peer_id,
-        mediaStream
+        mediaStream,
+        muted: isMuted
       })
     }
+  }
+
+  changeVideoState() {
+    this.myMediaSteam.getVideoTracks().forEach(track => track.enabled = !track.enabled);
+  }
+
+  changeAudioState() {
+    this.myMediaSteam.getAudioTracks().forEach(track => track.enabled = !track.enabled);
   }
 }

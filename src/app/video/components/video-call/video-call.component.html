@@ -9,4 +9,7 @@
   </div>
 </div>
 
-<app-bottom-nav></app-bottom-nav>
+<app-bottom-nav
+  (eventEmitterVideo)="changeVideoState()"
+  (eventEmitterAudio)="changeAudioState()"
+></app-bottom-nav>

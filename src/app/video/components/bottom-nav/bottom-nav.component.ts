@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { EventEmitter } from '@angular/core';
+import {Component, OnInit, Output} from '@angular/core';
 
 @Component({
   selector: 'app-bottom-nav',
@@ -7,9 +8,28 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BottomNavComponent implements OnInit {
 
+  @Output()
+  eventEmitterVideo = new EventEmitter();
+
+  @Output()
+  eventEmitterAudio = new EventEmitter();
+
+  isVideoActive = true;
+  isAudioActive = true;
+
   constructor() { }
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  changeAndEmitVideoState() {
+    this.isVideoActive = !this.isVideoActive;
+    this.eventEmitterVideo.emit();
   }
+
+  changeAndEmitAudioState() {
+    this.isAudioActive = !this.isAudioActive;
+    this.eventEmitterAudio.emit();
+  }
+
 
 }

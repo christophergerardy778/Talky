@@ -1,5 +1,5 @@
 <nav class="bottom-nav max-nav">
-  <a class="bottom-nav__destination">
+  <a class="bottom-nav__destination cursor-pointer">
     <mat-icon>
       chat
     </mat-icon>
@@ -8,7 +8,7 @@
     </span>
   </a>
 
-  <a class="bottom-nav__destination">
+  <a class="bottom-nav__destination cursor-pointer">
     <mat-icon>
       people
     </mat-icon>
@@ -17,25 +17,45 @@
     </span>
   </a>
 
-  <a class="bottom-nav__destination">
-    <mat-icon>
+  <a
+    class="bottom-nav__destination cursor-pointer"
+    (click)="changeAndEmitVideoState()"
+    [ngClass]="{'active-color': isVideoActive}"
+  >
+    <mat-icon *ngIf="isVideoActive">
       videocam
     </mat-icon>
+
+    <mat-icon *ngIf="!isVideoActive">
+      videocam_off
+    </mat-icon>
+
     <span class="bottom-nav__label">
       Video
     </span>
   </a>
 
-  <a class="bottom-nav__destination">
-    <mat-icon>
+  <a
+    class="bottom-nav__destination cursor-pointer"
+    (click)="changeAndEmitAudioState()"
+    [ngClass]="{'active-color': isAudioActive}"
+  >
+    <mat-icon *ngIf="isAudioActive">
       mic
     </mat-icon>
-    <span class="bottom-nav__label">
+    <span class="bottom-nav__label" *ngIf="isAudioActive">
       mute
+    </span>
+
+    <mat-icon *ngIf="!isAudioActive">
+      mic_off
+    </mat-icon>
+    <span class="bottom-nav__label" *ngIf="!isAudioActive">
+      unmute
     </span>
   </a>
 
-  <a class="bottom-nav__destination">
+  <a class="bottom-nav__destination cursor-pointer">
     <mat-icon>
       call_end
     </mat-icon>
