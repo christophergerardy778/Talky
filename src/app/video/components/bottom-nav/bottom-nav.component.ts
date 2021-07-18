@@ -14,6 +14,9 @@ export class BottomNavComponent implements OnInit {
   @Output()
   eventEmitterAudio = new EventEmitter();
 
+  @Output()
+  eventEmitterHangOut = new EventEmitter();
+
   isVideoActive = true;
   isAudioActive = true;
 
@@ -31,5 +34,7 @@ export class BottomNavComponent implements OnInit {
     this.eventEmitterAudio.emit();
   }
 
-
+  hangOut() {
+    this.eventEmitterHangOut.emit();
+  }
 }

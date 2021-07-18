@@ -9,6 +9,7 @@ import { ActionsComponent } from './components/actions/actions.component';
 import { VideoCallComponent } from './components/video-call/video-call.component';
 import { BottomNavComponent } from './components/bottom-nav/bottom-nav.component';
 import { VideoItemComponent } from './components/video-item/video-item.component';
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -19,12 +20,13 @@ import { VideoItemComponent } from './components/video-item/video-item.component
     BottomNavComponent,
     VideoItemComponent
   ],
-  imports: [
-    CommonModule,
-    VideoRoutingModule,
-    MaterialModule,
-    SharedModule
-  ]
+    imports: [
+        CommonModule,
+        VideoRoutingModule,
+        MaterialModule,
+        SharedModule,
+        FormsModule
+    ]
 })
 export class VideoModule {
 }

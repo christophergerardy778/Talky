@@ -3,7 +3,7 @@ import {IVideoItem} from "../../../core/models/IVideoItem";
 
 import {Socket} from "ngx-socket-io";
 import {PeerService} from "../../../core/services/peer.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import Peer, {MediaConnection} from "peerjs";
 import {IPeerResponse} from "../../../core/models/IPeerResponse";
 
@@ -22,6 +22,7 @@ export class VideoCallComponent implements OnInit {
     private readonly socket: Socket,
     private readonly route: ActivatedRoute,
     private readonly peerService: PeerService,
+    private readonly router: Router
   ) {
   }
 
@@ -98,5 +99,11 @@ export class VideoCallComponent implements OnInit {
 
   changeAudioState() {
     this.myMediaSteam.getAudioTracks().forEach(track => track.enabled = !track.enabled);
+  }
+
+  hangOut() {
+    this.peer.disconnect();
+    this.peer.destroy();
+    return this.router.navigate(["/app"]);
   }
 }

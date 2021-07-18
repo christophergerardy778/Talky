@@ -19,6 +19,8 @@ export class ActionsComponent implements OnInit {
     private readonly router: Router
   ) {}
 
+  roomName = "";
+
   ngOnInit(): void {
     this.angularFireAuth.user
       .subscribe( async user => {
@@ -30,5 +32,9 @@ export class ActionsComponent implements OnInit {
   async goAndGenerateRoom() {
     const roomId = Math.floor(Math.random() * (100000 - 10000) + 10000);
     await this.router.navigate(["app/call", roomId]);
+  }
+
+  goToRoom() {
+    return this.router.navigate(["app/call/", this.roomName]);
   }
 }

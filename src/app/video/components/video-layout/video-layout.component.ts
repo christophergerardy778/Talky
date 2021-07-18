@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-video-layout',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VideoLayoutComponent implements OnInit {
 
-  constructor() { }
+  isOpened = false;
+
+  constructor(private router: Router) {
+    this.isOpened = this.router.url !== "/app";
+  }
 
   ngOnInit(): void {
+    this.router.events.subscribe(() => {
+      this.isOpened = this.router.url !== "/app";
+    })
   }
 
 }
