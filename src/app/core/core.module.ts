@@ -9,7 +9,7 @@ import {environment} from "../../environments/environment";
   imports: [
     CommonModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    SocketIoModule.forRoot({url: "http://localhost:3000"})
+    SocketIoModule.forRoot({url: "https://talky-socket.herokuapp.com"})
   ],
   exports: [
     SocketIoModule
