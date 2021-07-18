@@ -13,6 +13,23 @@
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
 
+@import '~material-bottom-nav';
+
+.bottom-nav {
+  @include bottom-nav(
+    $background-color: #FFFFFF,
+    $active-color: #7479ED,
+    $inactive-color: #A9A9A9
+  );
+}
+
+mat-sidenav {
+  width: 300px;
+}
+
+.max-nav {
+  max-width: calc(100% - 300px);
+}
 
 $primary-color: (
   50: #7479ED,

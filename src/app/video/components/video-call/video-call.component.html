@@ -1,1 +1,12 @@
-<p>video-call works!</p>
+<div class="wrapper-video">
+  <div class="row">
+    <div
+      class="col-md-4 video-space"
+      *ngFor="let item of videoStreams"
+    >
+      <app-video-item [metadata]="item"></app-video-item>
+    </div>
+  </div>
+</div>
+
+<app-bottom-nav></app-bottom-nav>
