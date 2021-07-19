@@ -28,8 +28,10 @@ export class VideoCallComponent implements OnInit {
 
   ngOnInit(): void {
     this.peer = new Peer(undefined,  {
-      host: 'localhost',
-      port: 3001
+      path: "/peerjs",
+      host: 'talky-socket.herokuapp.com',
+      port: 443,
+      secure: true
     });
 
     if (navigator && navigator.mediaDevices) {
